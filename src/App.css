@@ -1,0 +1,141 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header {
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 1rem;
+  background-color: #2a2a2a;
+  border-radius: 8px;
+}
+
+.task-list-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.task-list-table th,
+.task-list-table td {
+  border: 1px solid #444;
+  padding: 0.8rem;
+  text-align: left;
+}
+
+.task-list-table th {
+  background-color: #444;
+  color: white;
+}
+
+.task-list-table tr:nth-child(even) {
+  background-color: #3a3a3a;
+}
+
+.task-list-table button {
+  margin-right: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+}
+
+.add-task-button-container {
+  text-align: right;
+  margin-bottom: 1rem;
+}
+
+.add-task-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.add-task-button:hover {
+  background-color: #0056b3;
+}
+
+.task-detail {
+  padding: 1rem;
+}
+
+.task-detail h2 {
+  color: white;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #ccc;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"] {
+  width: calc(100% - 1rem);
+  padding: 0.5rem;
+  border: 1px solid #555;
+  border-radius: 4px;
+  background-color: #333;
+  color: white;
+}
+
+.form-actions {
+  margin-top: 1.5rem;
+  text-align: right;
+}
+
+.form-actions button {
+  margin-left: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+}
+
+.form-actions button[type="submit"] {
+  background-color: #28a745;
+  color: white;
+}
+
+.form-actions button[type="submit"]:hover {
+  background-color: #218838;
+}
+
+.form-actions button[type="button"] { /* 戻るボタン */
+  background-color: #6c757d;
+  color: white;
+}
+
+.form-actions button[type="button"]:hover {
+  background-color: #5a6268;
+}
+
+.error {
+  color: red;
+  margin-bottom: 1rem;
+}
+
+p {
+  color: #ccc;
+}
