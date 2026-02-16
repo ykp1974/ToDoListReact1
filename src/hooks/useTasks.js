@@ -37,6 +37,7 @@ export function useTasks() {
       id: Date.now(),     // 簡易的な一意ID
       title,
       completed: false,
+      detail: ''
     }
 
     const updatedTasks = [...tasks, newTask]
@@ -70,6 +71,20 @@ export function useTasks() {
     localStorage.setItem('tasks', JSON.stringify(updatedTasks))
   }
 
+  /**
+   * タスクの詳細を更新する
+   */
+  const updateTaskDetail = (id, detail) => {
+    const updatedTasks = tasks.map(task =>
+      task.id === id
+        ? { ...task, detail }
+        : task
+    )
+
+    setTasks(updatedTasks)
+    localStorage.setItem('tasks', JSON.stringify(updatedTasks))
+  }
+
   // idからタスクを1件取得する関数
   const getTask = (id) => {
     return tasks.find(task => task.id === Number(id))
@@ -84,5 +99,6 @@ export function useTasks() {
     addTask,
     toggleTask,
     deleteTask,
+    updateTaskDetail,
   }
 }

@@ -38,6 +38,7 @@ function TaskList() {
    *   テキストボックスに入力中の値
    */
   const [newTask, setNewTask] = useState('')
+  const [newDetail, setDetail] = useState('')
 
   /**
    * フォーム送信時の処理
