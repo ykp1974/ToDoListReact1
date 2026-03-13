@@ -4,34 +4,28 @@ import React, { useState } from 'react'
 // タスク管理ロジックをまとめたカスタムフック
 // 【準備ステップ】import した時点で、この関数を使う準備がブラウザで行われる
 import { useTasks } from '../hooks/useTasks'
+import { useTaskFilter } from '../hooks/useTaskFilter'
 
 // 画面遷移用（詳細画面へ遷移するため）
 import { Link } from 'react-router-dom'
 
-// 業務での典型的な責務分離
-// TaskList.jsx
-// → 表示 + ユーザー操作
-// useTasks.js
-// → 状態管理 + ビジネスロジック
-
 /**
  * タスク一覧画面コンポーネント
- * ・タスクの追加
- * ・タスク一覧表示
- * ・完了／未完了の切り替え
  */
 function TaskList() {
 
   /**
    * useTasks から必要なものだけ取り出す
-   * 【実行スイッチ】ここで useTasks() を呼び出すことで、内部の useState や useEffect が予約・実行される
    */
   const { tasks, addTask, toggleTask } = useTasks()
 
   /**
+   * useTaskFilter を使って、表示するタスクを絞り込む
+   */
+  const { filterType, setFilterType, filteredTasks } = useTaskFilter(tasks)
+
+  /**
    * 入力フォーム用の state
-   * newTask:
-   *   テキストボックスに入力中の値
    */
   const [newTask, setNewTask] = useState('')
 
@@ -39,16 +33,9 @@ function TaskList() {
    * フォーム送信時の処理
    */
   const handleSubmit = (e) => {
-    // ページリロードを防ぐ
     e.preventDefault()
-
-    // 空文字は追加しない
     if (!newTask.trim()) return
-
-    // タスク追加
     addTask(newTask)
-
-    // 入力欄を空に戻す
     setNewTask('')
   }
 
@@ -62,41 +49,51 @@ function TaskList() {
           type="text"
           placeholder="新しいタスクを入力"
           value={newTask}
-          // 入力内容が変わるたびに state を更新
           onChange={(e) => setNewTask(e.target.value)}
         />
         <button type="submit">追加</button>
       </form>
 
-      {/* タスク一覧表示 */}
-      <ul>
-        {tasks.map(task => (
-          <li key={task.id}>
+      {/* フィルタリングボタン */}
+      <div style={{ marginTop: '10px', marginBottom: '10px' }}>
+        <button
+          onClick={() => setFilterType('all')}
+          style={{ fontWeight: filterType === 'all' ? 'bold' : 'normal' }}
+        >
+          すべて
+        </button>
+        <button
+          onClick={() => setFilterType('active')}
+          style={{ fontWeight: filterType === 'active' ? 'bold' : 'normal' }}
+        >
+          未完了
+        </button>
+        <button
+          onClick={() => setFilterType('completed')}
+          style={{ fontWeight: filterType === 'completed' ? 'bold' : 'normal' }}
+        >
+          完了
+        </button>
+      </div>
 
-            {/* 完了／未完了の切り替え */}
+      {/* タスク一覧表示（filteredTasks を使う） */}
+      <ul>
+        {filteredTasks.map(task => (
+          <li key={task.id}>
             <input
               type="checkbox"
               checked={task.completed}
               onChange={() => toggleTask(task.id)}
             />
-
-            {/* 
-              タスクタイトル
-              完了している場合はスタイルを変更
-            */}
             <span
               style={{
-                textDecoration: task.completed ? 'line-through' : 'none'
+                textDecoration: task.completed ? 'line-through' : 'none',
+                marginRight: '10px'
               }}
             >
               {task.title}
             </span>
-
-            {/* 詳細画面へのリンク */}
-            <Link to={`/tasks/${task.id}`}>
-              詳細
-            </Link>
-
+            <Link to={`/tasks/${task.id}`}>詳細</Link>
           </li>
         ))}
       </ul>

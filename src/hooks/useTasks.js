@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useLocalStorage } from './useLocalStorage'
 
 /**
  * タスク管理用カスタムフック
@@ -7,28 +7,11 @@ import { useState, useEffect } from 'react'
 export function useTasks() {
 
   /**
-   * tasks:
-   *   - タスクの配列
-   * setTasks:
-   *   - tasks を更新するための関数
+   * tasks: タスクの配列
+   * setTasks: tasks を更新するための関数
+   * useLocalStorage フックを使うことで、localStorage への保存・復元が自動化されます
    */
-  const [tasks, setTasks] = useState([])
-
-  /**
-   * useEffect:
-   *   - 【発動ステップ】コンポーネントがブラウザに表示（マウント）された直後に実行される
-   *   - 画面が出てから「あ、データ取ってこなきゃ」と動き出すイメージ
-   */
-  useEffect(() => {
-    // localStorage に保存されているタスクを取得
-    const storedTasks = localStorage.getItem('tasks')
-
-    // データが存在すれば、stateに反映
-    // ここで setTasks を呼ぶと、TaskList が「再描画」され、最新のデータが画面に出る
-    if (storedTasks) {
-      setTasks(JSON.parse(storedTasks))
-    }
-  }, []) // ← 空配列 = 最初の一回（マウント時）だけ実行されるという予約
+  const [tasks, setTasks] = useLocalStorage('tasks', [])
 
   /**
    * タスクを追加する関数
@@ -43,9 +26,6 @@ export function useTasks() {
 
     const updatedTasks = [...tasks, newTask]
     setTasks(updatedTasks)
-
-    // 変更後の状態を localStorage に保存
-    localStorage.setItem('tasks', JSON.stringify(updatedTasks))
   }
 
   /**
@@ -59,7 +39,6 @@ export function useTasks() {
     )
 
     setTasks(updatedTasks)
-    localStorage.setItem('tasks', JSON.stringify(updatedTasks))
   }
 
   /**
@@ -69,7 +48,6 @@ export function useTasks() {
     const updatedTasks = tasks.filter(task => task.id !== id)
 
     setTasks(updatedTasks)
-    localStorage.setItem('tasks', JSON.stringify(updatedTasks))
   }
 
   /**
@@ -83,7 +61,6 @@ export function useTasks() {
     )
 
     setTasks(updatedTasks)
-    localStorage.setItem('tasks', JSON.stringify(updatedTasks))
   }
 
   // idからタスクを1件取得する関数
@@ -96,7 +73,7 @@ export function useTasks() {
    */
   return {
     tasks,
-    getTask,      // ← ★ これを追加するだけ
+    getTask,
     addTask,
     toggleTask,
     deleteTask,

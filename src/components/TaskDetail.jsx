@@ -4,7 +4,7 @@ import { useTasks } from '../hooks/useTasks'
 
 function TaskDetail() {
   const { id } = useParams()
-  const { getTask, updateTaskDetail } = useTasks()
+  const { getTask, updateTaskDetail, toggleTask } = useTasks()
   const task = getTask(id)
 
   const [inputValue, setInputValue] = useState('')
@@ -31,7 +31,10 @@ function TaskDetail() {
 
       <p>
         状態：
-        {task.completed ? '完了' : '未完了'}
+        <select onChange={(e) => toggleTask(task.id)} value={task.completed ? 'completed' : 'not-completed'}>
+          <option value="completed">完了</option>
+          <option value="not-completed">未完了</option>
+        </select>
       </p>
 
       <p>
