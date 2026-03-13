@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { useTasks } from '../hooks/useTasks'
 
 function TaskDetail() {
@@ -41,6 +41,10 @@ function TaskDetail() {
           onChange={(e) => setInputValue(e.target.value)}
           onBlur={handleBlur}
         />
+      </p>
+
+      <p>
+        <Link to="/">タスク一覧へ</Link>
       </p>
     </div>
   )

@@ -16,18 +16,19 @@ export function useTasks() {
 
   /**
    * useEffect:
-   *   - コンポーネントが表示されたタイミングで実行される
-   *   - 今回は「初回のみ」実行したい
+   *   - 【発動ステップ】コンポーネントがブラウザに表示（マウント）された直後に実行される
+   *   - 画面が出てから「あ、データ取ってこなきゃ」と動き出すイメージ
    */
   useEffect(() => {
     // localStorage に保存されているタスクを取得
     const storedTasks = localStorage.getItem('tasks')
 
     // データが存在すれば、stateに反映
+    // ここで setTasks を呼ぶと、TaskList が「再描画」され、最新のデータが画面に出る
     if (storedTasks) {
       setTasks(JSON.parse(storedTasks))
     }
-  }, []) // ← 空配列 = 初回マウント時のみ実行
+  }, []) // ← 空配列 = 最初の一回（マウント時）だけ実行されるという予約
 
   /**
    * タスクを追加する関数

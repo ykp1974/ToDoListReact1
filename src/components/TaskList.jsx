@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 
 // タスク管理ロジックをまとめたカスタムフック
+// 【準備ステップ】import した時点で、この関数を使う準備がブラウザで行われる
 import { useTasks } from '../hooks/useTasks'
 
 // 画面遷移用（詳細画面へ遷移するため）
@@ -23,12 +24,7 @@ function TaskList() {
 
   /**
    * useTasks から必要なものだけ取り出す
-   * tasks:
-   *   現在のタスク一覧
-   * addTask:
-   *   タスク追加用の関数
-   * toggleTask:
-   *   完了状態の切り替え
+   * 【実行スイッチ】ここで useTasks() を呼び出すことで、内部の useState や useEffect が予約・実行される
    */
   const { tasks, addTask, toggleTask } = useTasks()
 
@@ -38,7 +34,6 @@ function TaskList() {
    *   テキストボックスに入力中の値
    */
   const [newTask, setNewTask] = useState('')
-  const [newDetail, setDetail] = useState('')
 
   /**
    * フォーム送信時の処理
